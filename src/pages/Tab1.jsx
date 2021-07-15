@@ -1,6 +1,7 @@
-import { IonContent, IonFab, IonFabButton, IonIcon, IonPage, IonSearchbar } from '@ionic/react';
+import { IonContent, IonFab, IonFabButton, IonIcon, IonPage, IonSearchbar, useIonViewWillEnter } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { getRecords } from '../main/yelp';
+// import { getLocation } from "../main/utils";
 import styles from "../styles/Map.module.scss";
 
 import { Map, Marker, Overlay } from "pigeon-maps";
@@ -10,29 +11,48 @@ import { MapOverlay } from "../components/MapOverlay";
 import { CurrentPointOverlay } from "../components/CurrentPointOverlay";
 import { flashOffOutline, flashOutline } from 'ionicons/icons';
 
+import RecordsStore from '../store/RecordsStore';
+import { fetchRecords } from '../store/Selectors';
+
 const maptilerProvider = maptiler('d5JQJPLLuap8TkJJlTdJ', 'streets');
 
 const Tab1 = () => {
 
+	//	const [ currentPoint, setCurrentPoint ] = useState(false);
 	const [ currentPoint, setCurrentPoint ] = useState({ latitude: 54.509720, longitude: -6.037400 });
+
 	const [ showCurrentPointInfo, setShowCurrentPointInfo ] = useState(false);
 
-	const [ records, setRecords ] = useState(false);
+	const records = RecordsStore.useState(fetchRecords);
+	const center = RecordsStore.useState(s => s.center);
+
 	const [ results, setResults ] = useState(false);
-	const [ center, setCenter ] = useState(false);
 	const [ zoom, setZoom ] = useState(14);
 
 	const [ searchTerm, setSearchTerm ] = useState("");
 	const [ moveMode, setMoveMode ] = useState(false);
 
+	// useEffect(() => {
+
+	// 	const getCurrentLocation = async () => {
+
+	// 		const fetchedLocation = await getLocation();
+	// 		setCurrentPoint(fetchedLocation.currentLocation);
+	// 	}
+
+	// 	getCurrentLocation();
+	// }, []);
+
+	// useIonViewWillEnter(() => {
+
+	// 	getRecords(currentPoint);
+	// });
+
 	useEffect(() => {
 
 		const getData = async () => {
 
-			const response = await getRecords(currentPoint);
-			setRecords(response.allRecords);
-			setResults(response.allRecords);
-			setCenter(response.center);
+			await getRecords(currentPoint);
 		}
 
 		getData();
@@ -41,6 +61,7 @@ const Tab1 = () => {
 	useEffect(() => {
 
 		console.log(records);
+		setResults([...records]);
 	}, [ records ]);
 
 	useEffect(() => {
@@ -61,26 +82,18 @@ const Tab1 = () => {
 			setResults(searchResults);
 		} else {
 
-			setResults(records);
+			setResults([...records]);
 		}
 
 	}, [ searchTerm ]);
 
 	const showMarkerInfo = (e, index) => {
 
-		const clickedPoint = e.anchor;
-		setCenter({ latitude: clickedPoint[0], longitude: clickedPoint[1] });
-
-		const tempRecords = [ ...results ];
+		const tempRecords = JSON.parse(JSON.stringify(results));
 
 		//	Hide all current marker infos
 		setShowCurrentPointInfo(false);
-		
-		if (!tempRecords[index].showInfo) {
-			
-			tempRecords.forEach(tempRecord => tempRecord.showInfo = false);
-		}
-
+		!tempRecords[index].showInfo && tempRecords.forEach(tempRecord => tempRecord.showInfo = false);
 		tempRecords[index].showInfo = !tempRecords[index].showInfo;
 
 		setResults(tempRecords);
@@ -88,7 +101,7 @@ const Tab1 = () => {
 
 	const hideMarkers = () => {
 
-		const tempRecords = [ ...results ];
+		const tempRecords = JSON.parse(JSON.stringify(results));
 		tempRecords.forEach(tempRecord => tempRecord.showInfo = false);
 		setResults(tempRecords);
 		setShowCurrentPointInfo(false);
@@ -110,11 +123,11 @@ const Tab1 = () => {
 	return (
 		<IonPage>
 			<IonContent fullscreen>
-				{ center && records && 
+				{ (center && center.latitude && center.longitude) && results &&
 					<>
 
 						<div className={ styles.overlaySearch }>
-							<IonSearchbar animated={ true } value={ searchTerm } onIonChange={ e => setSearchTerm(e.target.value) } />
+							<IonSearchbar placeholder="Search plotted points" animated={ true } value={ searchTerm } onIonChange={ e => setSearchTerm(e.target.value) } />
 						</div>
 
 						<Map onClick={ e => moveMode ? handleMapClick(e) : hideMarkers(e) } defaultCenter={ [center.latitude, center.longitude] } defaultZoom={ zoom } provider={ maptilerProvider } touchEvents={ true }>
@@ -145,14 +158,14 @@ const Tab1 = () => {
 								</Overlay>
 							}
 						</Map>
+
+						<IonFab vertical="bottom" horizontal="end" slot="fixed" onClick={ () => setMoveMode(!moveMode) }>
+							<IonFabButton>
+								<IonIcon icon={ moveMode ? flashOffOutline : flashOutline } />
+							</IonFabButton>
+						</IonFab>
 					</>
 				}
-
-				<IonFab vertical="bottom" horizontal="end" slot="fixed" onClick={ () => setMoveMode(!moveMode) }>
-          			<IonFabButton>
-            			<IonIcon icon={ moveMode ? flashOffOutline : flashOutline } />
-					</IonFabButton>
-        		</IonFab>
 			</IonContent>
 		</IonPage>
 	);

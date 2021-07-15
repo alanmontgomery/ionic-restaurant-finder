@@ -3,28 +3,50 @@ const express = require('express');
 const app = express();
 var session = require('express-session');
 
-//  Use session
+//	Use session
 app.use(session({ secret: 'keyboard ionic warrior', cookie: { maxAge: 86400000 }, resave: true, saveUninitialized: true }))
-// app.use(cors( {origin: '*'} ));
+//	app.use(cors( {origin: '*'} ));
 
-app.listen(process.env.PORT || 4000, function(){
-    console.log('server is running...');
+app.listen(process.env.PORT || 4000, function() {
+	
+	console.log('server is running...');
 });
 
-let API_KEY = "d02MG5N6GCJ0Y6GN5OHYCIW7XBHCbuu0O0w6sxtZmHMuhn-tgvOK1NaFIgST-4r8E3CQp6APMNMjKs0sZV3UHtQO-e32ysCBY-3nGqxJGsvjTCZ_eEM5jE14H-XuYHYx"
+let API_KEY = "d02MG5N6GCJ0Y6GN5OHYCIW7XBHCbuu0O0w6sxtZmHMuhn-tgvOK1NaFIgST-4r8E3CQp6APMNMjKs0sZV3UHtQO-e32ysCBY-3nGqxJGsvjTCZ_eEM5jE14H-XuYHYx";
 
 //	REST API for Yelp
-let yelpREST = axios.create({
-  baseURL: "https://api.yelp.com/v3/",
-  headers: {
-    Authorization: `Bearer ${API_KEY}`,
-    "Content-type": "application/json",
-  },
+let yelpAPI = axios.create({
+
+	baseURL: "https://api.yelp.com/v3/",
+	headers: {
+		Authorization: `Bearer ${API_KEY}`,
+		"Content-type": "application/json",
+	}
 });
 
 app.get('/get-record', function(req, res) {
 
-	yelpREST(`/businesses/l15MgLh_PDiwseyKVDDHVA/reviews`).then(({ data }) => {
+	const { id } = req.query;
+
+	yelpAPI(`/businesses/${ id }`).then(({ data }) => {
+
+		res.send(JSON.stringify(data));
+	});
+});
+
+app.get('/get-reviews', function(req, res) {
+
+	const { id } = req.query;
+
+	yelpAPI(`/businesses/${ id }/reviews`).then(({ data }) => {
+
+		res.send(JSON.stringify(data));
+	});
+});
+
+app.get('/get-categories', function(req, res) {
+
+	yelpAPI("/categories").then(({ data }) => {
 
 		res.send(JSON.stringify(data));
 	});
@@ -32,7 +54,8 @@ app.get('/get-record', function(req, res) {
 
 app.get('/get-records', function(req, res) {
 
-	const { latitude, longitude, radius, categories } = req.query;
+	const { latitude, longitude, radius } = req.query;
+	const categories = "restaurant,takeaway";
 
 	const params = {
 
@@ -42,7 +65,7 @@ app.get('/get-records', function(req, res) {
 		categories
 	};
 
-	yelpREST("/businesses/search", { params: params }).then(({ data }) => {
+	yelpAPI("/businesses/search", { params: params }).then(({ data }) => {
 
 		const allRecords = parseDetails(data);
 		res.send(JSON.stringify({ allRecords, center: data.region.center }));
