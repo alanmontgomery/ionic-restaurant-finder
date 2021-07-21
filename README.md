@@ -7,7 +7,7 @@ If you'd like to support, you can <a className="link" href="https://www.buymeaco
 
 ### Included in this Ionic React Template/UI
 * NodeJS Server for fetching data
-* Data fetching from API
+* Data fetching from API (Yelp)
 * Maps using Pigeon Maps
 * Custom design
 * Dynamic map
