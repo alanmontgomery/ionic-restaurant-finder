@@ -24,6 +24,7 @@ Please don't push your API Keys to your live production apps. I've left my API k
 
 ```javascript
 npm install
+node server.js
 ionic serve
 ```
 
