@@ -21,7 +21,7 @@ const Tab1 = () => {
 
 	const web = isPlatform("web" || "pwa" || "mobileweb" || "");
 
-	const [ currentPoint, setCurrentPoint ] = useState(false);
+		const [ currentPoint, setCurrentPoint ] = useState(false);
 	// const [ currentPoint, setCurrentPoint ] = useState({ latitude: 54.509720, longitude: -6.037400 });
 
 	const [ showCurrentPointInfo, setShowCurrentPointInfo ] = useState(false);
