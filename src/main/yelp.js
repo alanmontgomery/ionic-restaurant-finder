@@ -10,8 +10,18 @@ export const getRecords = async (currentPoint) => {
 	const response = await fetch(`http://localhost:4000/get-records?latitude=${ latitude }&longitude=${ longitude }&radius=${ radius }&offset=${ offset }`);
 	const data = await response.json();
 	setStore(data);
-	
-	// return data;
+}
+
+export const getRecord = async recordId => {
+
+	const response = await fetch(`http://localhost:4000/get-record?id=${ recordId }`);
+	const data = await response.json();
+
+	const response2 = await fetch(`http://localhost:4000/get-reviews?id=${ recordId }`);
+	const data2 = await response2.json();
+
+	data.reviews = data2.reviews;
+	return data;
 }
 
 export const getCategories = async () => {

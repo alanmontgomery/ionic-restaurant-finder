@@ -2,16 +2,20 @@ const axios = require("axios");
 const express = require('express');
 const app = express();
 var session = require('express-session');
+var cors = require('cors');
 
 //	Use session
-app.use(session({ secret: 'keyboard ionic warrior', cookie: { maxAge: 86400000 }, resave: true, saveUninitialized: true }))
-//	app.use(cors( {origin: '*'} ));
+app.use(session({ secret: 'Ionic Rocks!', cookie: { maxAge: 86400000 }, resave: true, saveUninitialized: true }));
+app.use(cors( {origin: '*'} ));
 
 app.listen(process.env.PORT || 4000, function() {
 	
 	console.log('server is running...');
 });
 
+//	DON'T LEAVE THIS API KEY IN YOUR PRODUCTION APPS
+//	This is a test account of mine, so i've left this in for demo purposes.
+//	Secure your nodejs server and API key when building real things!
 let API_KEY = "d02MG5N6GCJ0Y6GN5OHYCIW7XBHCbuu0O0w6sxtZmHMuhn-tgvOK1NaFIgST-4r8E3CQp6APMNMjKs0sZV3UHtQO-e32ysCBY-3nGqxJGsvjTCZ_eEM5jE14H-XuYHYx";
 
 //	REST API for Yelp

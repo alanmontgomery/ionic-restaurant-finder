@@ -24,38 +24,43 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import ViewPlace from './pages/ViewPlace';
 
 const App = () => (
   <IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/tab1">
+          <Route exact path="/map">
             <Tab1 />
           </Route>
-          <Route exact path="/tab2">
+          <Route exact path="/list">
             <Tab2 />
           </Route>
-          <Route path="/tab3">
-            <Tab3 />
+
+          <Route exact path="/list/:id">
+            <ViewPlace />
           </Route>
+          {/* <Route path="/tab3">
+            <Tab3 />
+          </Route> */}
           <Route exact path="/">
             <Redirect to="/tab1" />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon icon={mapOutline} />
+          <IonTabButton tab="tab1" href="/map">
+            <IonIcon icon={ mapOutline } />
             {/* <IonLabel>Map</IonLabel> */}
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
+          <IonTabButton tab="tab2" href="/list">
             <IonIcon icon={ listOutline } />
             {/* <IonLabel>Tab 2</IonLabel> */}
           </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
+          {/* <IonTabButton tab="tab3" href="/tab3">
             <IonIcon icon={square} />
-            {/* <IonLabel>Tab 3</IonLabel> */}
-          </IonTabButton>
+            <IonLabel>Tab 3</IonLabel>
+          </IonTabButton> */}
         </IonTabBar>
       </IonTabs>
     </IonReactRouter>

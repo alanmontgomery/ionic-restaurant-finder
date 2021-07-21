@@ -1,0 +1,81 @@
+.page {
+
+	ion-content {
+
+		ion-toolbar,
+		ion-header {
+
+			--border-style: none;
+			--border-color: none;
+		}
+	}
+
+	.cardImage {
+
+        height: 10rem;
+        width: 100%;
+        background-position: top center;
+        background-size: cover;
+		border-radius: 5px;
+
+		ion-row {
+
+			--color: white;
+			background-color: rgba(0, 0, 0, 0.4);
+			height: 100%;
+			display: flex;
+			flex-direction: row;
+			align-content: center;
+			align-items: center;
+			justify-content: center;
+
+			ion-card-subtitle {
+
+				--color: white;
+				background-color: rgba(0, 0, 0, 0.6);
+				padding: 1rem;
+				text-align: center;
+				border-radius: 5px;
+				font-size: 1.2rem;
+
+				div {
+
+					margin-bottom: -0.6rem;
+				}
+
+				ion-note {
+
+					font-size: 0.6rem;
+					padding: 0;
+					margin: 0;
+					--color: white;
+					text-transform: lowercase;
+					font-weight: 600;
+				}
+			}
+		}
+    }
+
+	a {
+
+		text-decoration: none;
+		font-size: 0.9rem;
+	}
+
+	.categoryContainer {
+
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		border-bottom: 2px solid rgb(241, 241, 241);
+	}
+
+	.placePhoto {
+
+		height: 4rem;
+	}
+	
+	.reviewUser {
+
+		
+	}
+}

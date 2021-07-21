@@ -1,7 +1,7 @@
-import { IonContent, IonFab, IonFabButton, IonIcon, IonPage, IonSearchbar, useIonViewWillEnter } from '@ionic/react';
+import { IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonPage, IonSearchbar, IonToolbar, isPlatform, useIonViewWillEnter } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { getRecords } from '../main/yelp';
-// import { getLocation } from "../main/utils";
+
 import styles from "../styles/Map.module.scss";
 
 import { Map, Marker, Overlay } from "pigeon-maps";
@@ -19,8 +19,10 @@ const maptilerProvider = maptiler('d5JQJPLLuap8TkJJlTdJ', 'streets');
 
 const Tab1 = () => {
 
-	//	const [ currentPoint, setCurrentPoint ] = useState(false);
-	const [ currentPoint, setCurrentPoint ] = useState({ latitude: 54.509720, longitude: -6.037400 });
+	const web = isPlatform("web" || "pwa" || "mobileweb" || "");
+
+	const [ currentPoint, setCurrentPoint ] = useState(false);
+	// const [ currentPoint, setCurrentPoint ] = useState({ latitude: 54.509720, longitude: -6.037400 });
 
 	const [ showCurrentPointInfo, setShowCurrentPointInfo ] = useState(false);
 
@@ -33,21 +35,21 @@ const Tab1 = () => {
 	const [ searchTerm, setSearchTerm ] = useState("");
 	const [ moveMode, setMoveMode ] = useState(false);
 
-	// useEffect(() => {
+	useEffect(() => {
 
-	// 	const getCurrentLocation = async () => {
+		const getCurrentLocation = async () => {
 
-	// 		const fetchedLocation = await getLocation();
-	// 		setCurrentPoint(fetchedLocation.currentLocation);
-	// 	}
+			const fetchedLocation = await getLocation();
+			setCurrentPoint(fetchedLocation.currentLocation);
+		}
 
-	// 	getCurrentLocation();
-	// }, []);
+		getCurrentLocation();
+	}, []);
 
-	// useIonViewWillEnter(() => {
+	useIonViewWillEnter(() => {
 
-	// 	getRecords(currentPoint);
-	// });
+		getRecords(currentPoint);
+	});
 
 	useEffect(() => {
 
@@ -61,7 +63,6 @@ const Tab1 = () => {
 
 	useEffect(() => {
 
-		console.log(records);
 		setResults([...records]);
 	}, [ records ]);
 
@@ -127,7 +128,7 @@ const Tab1 = () => {
 				{ (center && center.latitude && center.longitude) && results &&
 					<>
 
-						<div className={ styles.overlaySearch }>
+						<div className={ styles.overlaySearch } style={{ marginTop: web ? "0.5rem" : "3.5rem" }}>
 							<IonSearchbar placeholder="Search plotted points" animated={ true } value={ searchTerm } onIonChange={ e => setSearchTerm(e.target.value) } />
 						</div>
 

@@ -1,6 +1,7 @@
 import { IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonIcon, IonItem, IonNote, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { arrowForward, navigateOutline } from 'ionicons/icons';
 import ExploreContainer from '../components/ExploreContainer';
+import { RatingStar } from '../components/RatingStar';
 import RecordsStore from '../store/RecordsStore';
 import { fetchRecords } from '../store/Selectors';
 
@@ -14,21 +15,31 @@ const Tab2 = () => {
 		<IonPage>
 			<IonHeader>
 				<IonToolbar>
-					<IonTitle>View all</IonTitle>
+					<IonTitle>All places in your location</IonTitle>
 				</IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>
 				<IonHeader collapse="condense">
 					<IonToolbar>
-						<IonTitle size="large">View all</IonTitle>
+						<IonTitle size="large">Feeling hungry?</IonTitle>
 					</IonToolbar>
 				</IonHeader>
 
 				{ records.map((record, index) => {
 
+					const imageURL = record.imageURL ? record.imageURL : "/placeholder.jpeg";
+					const rating = Math.floor(record.rating).toFixed(0);
+
 					return (
-						<IonCard className={ styles.viewCard }>
+						<IonCard key={ `record_${ index }` } className={ `${ styles.viewCard } animate__animated animate__faster animate__fadeIn` } routerLink={ `/list/${ record.id }` }>
+							<div className={ styles.cardImage } style={{ backgroundImage: `url(${ imageURL })` }} />
 							<IonCardHeader>
+
+								{ Array.apply(null, { length: 5 }).map((e, i) => (
+
+									<RatingStar key={ i } rated={ rating > i } />
+								))}
+
 								<IonCardSubtitle>{ record.name }</IonCardSubtitle>
 								<IonNote color="medium">{ record.displayAddress }</IonNote>
 
@@ -48,8 +59,6 @@ const Tab2 = () => {
 						</IonCard>
 					);
 				})}
-				
-				{/* <ExploreContainer name="Tab 2 page" /> */}
 			</IonContent>
 		</IonPage>
 	);
