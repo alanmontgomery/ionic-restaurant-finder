@@ -13,6 +13,7 @@ import { flashOffOutline, flashOutline } from 'ionicons/icons';
 
 import RecordsStore from '../store/RecordsStore';
 import { fetchRecords } from '../store/Selectors';
+import { getLocation } from '../main/utils';
 
 const maptilerProvider = maptiler('d5JQJPLLuap8TkJJlTdJ', 'streets');
 

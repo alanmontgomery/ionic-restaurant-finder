@@ -1,0 +1,15 @@
+.viewCard {
+
+    p {
+
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+
+        ion-icon {
+
+            margin-right: 0.5rem;
+        }
+    }
+}
