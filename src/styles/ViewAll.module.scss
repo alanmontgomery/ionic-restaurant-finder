@@ -21,3 +21,34 @@
         background-size: cover;
     }
 }
+
+.viewCardModal {
+
+    p {
+
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+
+        ion-icon {
+
+            margin-right: 0.5rem;
+        }
+    }
+
+    .cardImage {
+
+        height: 10rem;
+        width: 100%;
+        background-position: top center;
+        background-size: cover;
+    }
+}
+
+.viewCardContainerModal {
+
+    height: 90vh;
+    width: 100%;
+    overflow: scroll;
+}

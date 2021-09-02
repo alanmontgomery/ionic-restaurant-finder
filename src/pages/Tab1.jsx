@@ -1,4 +1,4 @@
-import { IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonPage, IonSearchbar, IonToolbar, isPlatform, useIonViewWillEnter } from '@ionic/react';
+import { IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonModal, IonPage, IonSearchbar, IonToolbar, isPlatform, useIonViewWillEnter } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { getRecords } from '../main/yelp';
 
@@ -9,11 +9,12 @@ import { maptiler } from 'pigeon-maps/providers';
 
 import { MapOverlay } from "../components/MapOverlay";
 import { CurrentPointOverlay } from "../components/CurrentPointOverlay";
-import { flashOffOutline, flashOutline } from 'ionicons/icons';
+import { flashOffOutline, flashOutline, list } from 'ionicons/icons';
 
 import RecordsStore from '../store/RecordsStore';
 import { fetchRecords } from '../store/Selectors';
 import { getLocation } from '../main/utils';
+import { ListModal } from '../components/ListModal';
 
 const maptilerProvider = maptiler('d5JQJPLLuap8TkJJlTdJ', 'streets');
 
@@ -23,25 +24,25 @@ const Tab1 = () => {
 
 	//	UNCOMMENT THESE TO USE CURRENT LOCATION.
 
-	const [ currentPoint, setCurrentPoint ] = useState(false);
+	// const [ currentPoint, setCurrentPoint ] = useState(false);
 
-	useEffect(() => {
+	// useEffect(() => {
 
-		const getCurrentLocation = async () => {
+	// 	const getCurrentLocation = async () => {
 
-			const fetchedLocation = await getLocation();
-			setCurrentPoint(fetchedLocation.currentLocation);
-		}
+	// 		const fetchedLocation = await getLocation();
+	// 		setCurrentPoint(fetchedLocation.currentLocation);
+	// 	}
 
-		getCurrentLocation();
-	}, []);
+	// 	getCurrentLocation();
+	// }, []);
 
 	useIonViewWillEnter(() => {
 
 		getRecords(currentPoint);
 	});
 
-	// const [ currentPoint, setCurrentPoint ] = useState({ latitude: 54.509720, longitude: -6.037400 });
+	const [ currentPoint, setCurrentPoint ] = useState({ latitude: 40.8264691, longitude: -73.9549618 });
 
 	const [ showCurrentPointInfo, setShowCurrentPointInfo ] = useState(false);
 
@@ -53,6 +54,8 @@ const Tab1 = () => {
 
 	const [ searchTerm, setSearchTerm ] = useState("");
 	const [ moveMode, setMoveMode ] = useState(false);
+
+	const [ showListModal, setShowListModal ] = useState(false);
 
 	useEffect(() => {
 
@@ -169,6 +172,16 @@ const Tab1 = () => {
 								<IonIcon icon={ moveMode ? flashOffOutline : flashOutline } />
 							</IonFabButton>
 						</IonFab>
+
+						<IonFab vertical="bottom" horizontal="start" slot="fixed" onClick={ () => setShowListModal(!showListModal) }>
+							<IonFabButton>
+								<IonIcon icon={ list } />
+							</IonFabButton>
+						</IonFab>
+
+						<IonModal isOpen={ !showListModal } onDidDismiss={ () => setShowListModal(false) } swipeToClose={ true } initialBreakpoint={ 0.6 } breakpoints={ [0, 0.6, 1] } backdropBreakpoint={ 0.6 }>
+							<ListModal hideModal={ () => setShowListModal(false) } searchTerm={ searchTerm } search={ setSearchTerm } records={ results } />
+						</IonModal>
 					</>
 				}
 			</IonContent>

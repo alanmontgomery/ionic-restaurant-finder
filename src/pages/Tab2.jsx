@@ -1,6 +1,5 @@
-import { IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonIcon, IonItem, IonNote, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonContent, IonHeader, IonIcon, IonNote, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { arrowForward, navigateOutline } from 'ionicons/icons';
-import ExploreContainer from '../components/ExploreContainer';
 import { RatingStar } from '../components/RatingStar';
 import RecordsStore from '../store/RecordsStore';
 import { fetchRecords } from '../store/Selectors';
