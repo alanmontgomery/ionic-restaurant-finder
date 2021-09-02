@@ -179,7 +179,7 @@ const Tab1 = () => {
 							</IonFabButton>
 						</IonFab>
 
-						<IonModal isOpen={ !showListModal } onDidDismiss={ () => setShowListModal(false) } swipeToClose={ true } initialBreakpoint={ 0.6 } breakpoints={ [0, 0.6, 1] } backdropBreakpoint={ 0.6 }>
+						<IonModal isOpen={ showListModal } onDidDismiss={ () => setShowListModal(false) } swipeToClose={ true } initialBreakpoint={ 0.6 } breakpoints={ [0, 0.6, 1] } backdropBreakpoint={ 0.6 }>
 							<ListModal hideModal={ () => setShowListModal(false) } searchTerm={ searchTerm } search={ setSearchTerm } records={ results } />
 						</IonModal>
 					</>
