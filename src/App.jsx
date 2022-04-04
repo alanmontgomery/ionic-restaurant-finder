@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
+import { IonApp, IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { listOutline, mapOutline } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
@@ -24,6 +24,8 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import ViewPlace from './pages/ViewPlace';
+
+setupIonicReact({});
 
 const App = () => (
   <IonApp>
